@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, useWindowDimensions, View } from "react-native";
+import { FlatList, Linking, ScrollView, useWindowDimensions, View } from "react-native";
 import React, { useMemo, useRef } from "react";
 import Pdf from "react-native-pdf";
 import {
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/libs/utils";
 import { Separator } from "./ui/separator";
+import Hyperlink from "react-native-hyperlink";
 
 type Props = {
   scannedResults: IVerifierCertificate & IScanHistoryData;
@@ -47,6 +48,10 @@ const ViewCertificate = ({
   }, [width]);
   
 
+  console.log(scannedResults, "Scanned RESILT")
+  console.log(barcodeData, "BARCODE DAATA");
+
+
   return (
     <View className="flex-1">
       <Card className="w-full">
@@ -58,7 +63,7 @@ const ViewCertificate = ({
           <Text className="text-base xs:text-lg">
             Document ID:{" "}
             <Text className="font-semibold">
-              {scannedResults.serialNo || scannedResults.serial_no|| scannedResults.document_id }
+              {scannedResults.serialNo || scannedResults.serial_no || scannedResults.document_id}
             </Text>
           </Text>
           <Text className="text-base xs:text-lg">
@@ -67,43 +72,72 @@ const ViewCertificate = ({
               {parseInt(scannedResults.status) != 0 ? "Active" : "In Active"}
             </Text>
           </Text>
-          {barcodeData && (
+          {/* {barcodeData && (
             <Text className="text-base xs:text-lg">
               Data: <Text className="font-semibold">{barcodeData}</Text>
             </Text>
+          )} */}
+          {barcodeData?.toString().includes("http") && (
+            <View>
+              <Text className="text-base xs:text-lg">
+                Data:
+              </Text>
+              <Hyperlink
+                linkStyle={{
+                  color: "#2563eb",
+                  fontWeight: "600",
+                  textDecorationLine: "underline",
+                }}
+                onPress={(url) => Linking.openURL(url)}
+              >
+                <Text className="text-gray-800 text-base leading-6">
+                  {
+                    barcodeData
+                      ?.toString()
+                      .split("\n")
+                      .find((line) => line.includes("http")) ?? ""
+                  }
+                </Text>
+              </Hyperlink>
+            </View>
           )}
         </CardContent>
       </Card>
 
       {/* {scannedResults.verification_type != 1 ||
         scannedResults.document_status ? ( */}
-        <View
-          className="flex-1 my-4"
-          onStartShouldSetResponder={() => {
-            // Disable pager scroll when user starts interacting with PDF
-            setPagerScrollEnabled?.(false);
-            return false; // Don't block children from handling the event
+      <View
+        className="flex-1 my-4"
+        onStartShouldSetResponder={() => {
+          // Disable pager scroll when user starts interacting with PDF
+          setPagerScrollEnabled?.(false);
+          return false; // Don't block children from handling the event
+        }}
+        onResponderRelease={() => {
+          // Re-enable pager scroll when user stops interacting
+          setPagerScrollEnabled?.(true);
+          return true;
+        }}
+      >
+        <Pdf
+          trustAllCerts={false}
+          source={{
+            uri: scannedResults.fileUrl || scannedResults.pdf_url, cache: true,
+            headers: {
+              "Accept": "application/pdf",
+            }
           }}
-          onResponderRelease={() => {
-            // Re-enable pager scroll when user stops interacting
-            setPagerScrollEnabled?.(true);
-            return true;
+          onError={(error) => {
+            console.log(error, "PDF_ERROR");
           }}
-        >
-          <Pdf
-            trustAllCerts={false}
-            source={{ uri: scannedResults.fileUrl || scannedResults.pdf_url }}
-            onError={(error) => {
-              console.log(error, "PDF_ERROR");
-            }}
-            style={{
-              flex: 1,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "#FFF",
-            }}
-          />
-        </View>
+          style={{
+            flex: 1,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#FFF",
+          }}
+        />
+      </View>
       {/* ) : (
         <ScrollView
           bounces={false}

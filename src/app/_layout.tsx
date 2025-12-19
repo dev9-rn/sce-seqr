@@ -7,15 +7,92 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import "@/app/globals.css";
 import ToastNotification from "@/components/ToastNotification";
-import { Appearance, StatusBar } from "react-native";
+import { Alert, Appearance, AppState, Linking, Platform, StatusBar } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { isUpdateRequired } from "@/libs/utils";
+import * as Application from 'expo-application';
+import { getApplicationVersion, getLatestAndroidVersion, getLatestIOSVersion } from "@/utils/forceUpdate";
 // ...existing code...
 
 if (__DEV__) {
 	require("../../ReactotronConfig");
 }
+// const IOS_APP_ID = process.env.EXPO_PUBLIC_IOS_APP_ID;
+// const ANDROID_PACKAGE = process.env.EXPO_PUBLIC_ANDROID_PACKAGE;
+
+// const IOS_STORE_URL = `https://apps.apple.com/app/id${IOS_APP_ID}`;
+// const ANDROID_STORE_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
 
 export default function RootLayout() {
 	const colorScheme = Appearance.getColorScheme();
+	const [appState, setAppState] = useState(AppState.currentState);
+
+
+	// const getApplicationVersion = async () => {
+	// 	try {
+	// 		const latestVersion =
+	// 			Platform.OS === 'ios'
+	// 				? await getLatestIOSVersion()
+	// 				: await getLatestAndroidVersion();
+
+	// 		const currentVersion = Application.nativeApplicationVersion;
+
+	// 		if (
+	// 			isUpdateRequired(currentVersion, latestVersion)
+	// 		) {
+	// 			Alert.alert(
+	// 				'Update Required',
+	// 				'A new version of the app is available. Please update to continue using the app.',
+	// 				[
+	// 					{
+	// 						text: 'Update Now',
+	// 						onPress: () => {
+	// 							const url =
+	// 								Platform.OS === 'ios'
+	// 									? IOS_STORE_URL
+	// 									: ANDROID_STORE_URL;
+
+	// 							Linking.openURL(url);
+
+	// 							// // Reset flag so alert can show again
+	// 							// setTimeout(() => {
+	// 							// 	isAlertVisible.current = false;
+	// 							// }, 1000);
+	// 						},
+	// 					},
+	// 				],
+	// 				{ cancelable: false }
+	// 			);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Version check failed:', error);
+	// 	}
+	// };
+
+
+	useEffect(() => {
+		const handleAppStateChange = (nextAppState: any) => {
+			console.log('AppState change:', nextAppState); // To monitor state changes
+			setAppState(nextAppState);
+		};
+
+		const subscription = AppState.addEventListener(
+			'change',
+			handleAppStateChange,
+		);
+
+		return () => {
+			subscription.remove();
+			// unsubscribe
+		};
+	}, []);
+
+	useEffect(() => {
+		if (appState === 'active') {
+			getApplicationVersion();
+		}
+	}, [appState]);
+
 	return (
 		<>
 			<StatusBar
