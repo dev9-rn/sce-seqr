@@ -19,11 +19,11 @@ export const NAV_THEME = {
 
 export const STORAGE_KEYS = {
     accessToken: "accessToken",
-    localUser: "localUser",
+    localUser: "localUserData",
 }
 
 export const TITLES = {
-    APP_NAME: 'Alard Synergy',
+    APP_NAME: 'SCE',
     SHOW_POWER_BY: false,
     SHOW_REMOVE_ACCOUNT: true,
     SHOW_ANSWER_BOOKLET: false

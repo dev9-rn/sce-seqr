@@ -4,76 +4,109 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 267 41% 24%;
+    /* ---------- BASE ---------- */
+    --background: 0 0% 100%;                 /* white */
+    --foreground: 225 45% 20%;               /* deep blue text */
 
+    /* ---------- CARDS ---------- */
     --card: 0 0% 100%;
-    --card-foreground: 267 41% 24%;
+    --card-foreground: 225 45% 20%;
 
+    /* ---------- POPOVER ---------- */
     --popover: 0 0% 100%;
-    --popover-foreground: 267 41% 24%;
+    --popover-foreground: 225 45% 20%;
 
-    --primary: 267 41% 24%;              /* deep purple */
+    /* ---------- PRIMARY (LOGO BLUE) ---------- */
+    --primary: 228 58% 32%;                  /* royal blue */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 44 68% 49%;             /* golden yellow */
-    --secondary-foreground: 0 0% 100%;
+    /* ---------- SECONDARY (LOGO YELLOW) ---------- */
+    --secondary: 48 95% 55%;                 /* bright yellow */
+    --secondary-foreground: 225 45% 20%;
 
-    --muted: 44 100% 96%;                /* soft gold background */
-    --muted-foreground: 0 12% 22%;       /* dark gray text */
+    /* ---------- MUTED ---------- */
+    --muted: 220 20% 96%;                    /* light grey-blue */
+    --muted-foreground: 220 10% 40%;
 
-    --accent: 44 68% 49%;                /* golden accent */
-    --accent-foreground: 267 41% 24%;
+    /* ---------- ACCENT ---------- */
+    --accent: 48 95% 55%;                    /* yellow accent */
+    --accent-foreground: 225 45% 20%;
 
-    --destructive: 0 75% 45%;            /* red if needed */
+    /* ---------- DESTRUCTIVE ---------- */
+    --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 267 41% 24%;
-    --input: 44 68% 95%;
-    --ring: 267 41% 24%;
+    /* ---------- UI ---------- */
+    --border: 220 15% 85%;
+    --input: 220 20% 94%;
+    --ring: 228 58% 32%;
   }
 
-  .dark:root {
-     --background: 0 0% 100%;
-    --foreground: 267 41% 24%;
+  /* ---------- DARK MODE ---------- */
+  .dark {
+    --background: 225 35% 12%;               /* deep navy */
+    --foreground: 0 0% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 267 41% 24%;
+    --card: 225 30% 16%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 267 41% 24%;
+    --popover: 225 30% 16%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 267 41% 24%;              /* deep purple */
-    --primary-foreground: 0 0% 98%;
+    --primary: 48 95% 55%;                   /* yellow highlight */
+    --primary-foreground: 225 45% 15%;
 
-    --secondary: 44 68% 49%;             /* golden yellow */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 228 58% 32%;                /* blue */
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 44 100% 96%;                /* soft gold background */
-    --muted-foreground: 0 12% 22%;       /* dark gray text */
+    --muted: 225 25% 22%;
+    --muted-foreground: 220 10% 70%;
 
-    --accent: 44 68% 49%;                /* golden accent */
-    --accent-foreground: 267 41% 24%;
+    --accent: 48 95% 55%;
+    --accent-foreground: 225 45% 15%;
 
-    --destructive: 0 75% 45%;            /* red if needed */
+    --destructive: 0 70% 45%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 267 41% 24%;
-    --input: 44 68% 95%;
-    --ring: 267 41% 24%;
+    --border: 225 20% 30%;
+    --input: 225 20% 25%;
+    --ring: 48 95% 55%;
   }
 }
 
 @layer components {
+  /* ---------- TEXT ---------- */
   .signUpFormText {
-    @apply text-base xs:text-lg font-medium mb-1
+    @apply text-sm xs:text-base font-medium text-foreground mb-1;
   }
 
+  /* ---------- INPUTS ---------- */
   .signUpInputs {
-    @apply !rounded-lg
+    @apply rounded-lg border border-border bg-input text-foreground
+           focus:outline-none focus:ring-2 focus:ring-primary;
   }
 
   .signUpInputs_Focused {
-    @apply !border-primary !border-2
+    @apply border-primary border-2;
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground
+           hover:bg-primary/90
+           rounded-lg px-4 py-2 font-semibold;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground
+           hover:bg-secondary/90
+           rounded-lg px-4 py-2 font-semibold;
+  }
+
+  /* ---------- CARD ---------- */
+  .app-card {
+    @apply bg-card text-card-foreground
+           border border-border
+           rounded-xl shadow-sm;
   }
 }

@@ -25,20 +25,25 @@ import useUser from "@/hooks/useUser";
 import { useToast } from "react-native-toast-notifications";
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
+import { storage } from "@/utils/storageService";
 
 type Props = {};
 
-const CameraScreen = ({ }: Props) => {
+const CameraScreen = ({}: Props) => {
   const { userDetails } = useUser();
   const [scanned, setScanned] = useState<boolean>(false);
-  const [isFetchingScannedData, setIsFetchingScannedData] = useState<boolean>(false);
+  const [isFetchingScannedData, setIsFetchingScannedData] =
+    useState<boolean>(false);
   const [permission, requestPermission] = useCameraPermissions();
   const toast = useToast();
-  const { scanner_type } = useLocalSearchParams<{ scanner_type: BarcodeType }>();
+  const { scanner_type } = useLocalSearchParams<{
+    scanner_type: BarcodeType;
+  }>();
   const cameraRef = useRef<CameraView>(null);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const scanTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const loginType = storage.getString("login_type");
 
   // Clean up timeouts on unmount
   useEffect(() => {
@@ -92,9 +97,9 @@ const CameraScreen = ({ }: Props) => {
       const response = await axiosInstance.post(
         scanner_type === "code128"
           ? SCAN_AUDIT_TRIALS
-          : userDetails?.user_type === 0
-            ? SCAN_VERIFIER_CERT
-            : SCAN_INSTITUTE_CERT,
+          : loginType === "verifier"
+          ? SCAN_VERIFIER_CERT
+          : SCAN_INSTITUTE_CERT,
         scannedFormData
       );
 
@@ -161,7 +166,8 @@ const CameraScreen = ({ }: Props) => {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-stone-900">
         <Text className="text-white text-center">
-          We need to access your camera to scan your document's / certificate's QR Code
+          We need to access your camera to scan your document's / certificate's
+          QR Code
         </Text>
         <Button onPress={requestPermission}>
           <Text>Continue</Text>
@@ -189,7 +195,7 @@ const CameraScreen = ({ }: Props) => {
 
       {isFetchingScannedData && (
         <View className="absolute top-3/4 self-center items-center flex-row">
-          <ActivityIndicator size={'small'} color={'#237fc5'} />
+          <ActivityIndicator size={"small"} color={"#237fc5"} />
           <Text className="text-white bg-black/40 p-4 rounded-lg">
             Scanning your {scanner_type} data. Please wait...
           </Text>
