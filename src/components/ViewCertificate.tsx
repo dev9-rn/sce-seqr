@@ -46,6 +46,9 @@ const ViewCertificate = ({
     });
   }, [width]);
 
+  console.log(scannedResults, "scannedResults");
+  
+
   return (
     <View className="flex-1">
       <Card className="w-full">
@@ -57,7 +60,7 @@ const ViewCertificate = ({
           <Text className="text-base xs:text-lg">
             Document ID:{" "}
             <Text className="font-semibold">
-              {scannedResults.serialNo || scannedResults.document_id}
+              {scannedResults.serialNo || scannedResults.serial_no|| scannedResults.document_id }
             </Text>
           </Text>
           <Text className="text-base xs:text-lg">
