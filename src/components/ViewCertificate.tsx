@@ -45,8 +45,6 @@ const ViewCertificate = ({
       return evenWidth > minWidth ? evenWidth : minWidth;
     });
   }, [width]);
-
-  console.log(scannedResults, "scannedResults");
   
 
   return (
@@ -77,8 +75,8 @@ const ViewCertificate = ({
         </CardContent>
       </Card>
 
-      {scannedResults.verification_type != 1 ||
-        scannedResults.document_status ? (
+      {/* {scannedResults.verification_type != 1 ||
+        scannedResults.document_status ? ( */}
         <View
           className="flex-1 my-4"
           onStartShouldSetResponder={() => {
@@ -106,7 +104,7 @@ const ViewCertificate = ({
             }}
           />
         </View>
-      ) : (
+      {/* ) : (
         <ScrollView
           bounces={false}
           showsHorizontalScrollIndicator={false}
@@ -157,7 +155,7 @@ const ViewCertificate = ({
             </TableBody>
           </Table>
         </ScrollView>
-      )}
+      )} */}
     </View>
   );
 };
