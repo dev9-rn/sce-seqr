@@ -22,6 +22,7 @@
       },
       "supportsTablet": false,
       "bundleIdentifier": "org.reactjs.native.example.sceseqr",
+      "googleServicesFile": "./firebase/ios/GoogleService-Info.plist",
       "entitlements": {
         "com.apple.developer.networking.wifi-info": true
       }
@@ -33,6 +34,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.sceseqr",
+      "googleServicesFile": "./firebase/android/google-services.json",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.READ_EXTERNAL_STORAGE",
@@ -40,7 +42,7 @@
         "android.permission.DOWNLOAD_WITHOUT_NOTIFICATION",
         "android.permission.ACCESS_NETWORK_STATE"
       ],
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
       "bundler": "metro",
@@ -49,6 +51,8 @@
     },
     "plugins": [
       "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/crashlytics",
       [
         "expo-splash-screen",
         {
@@ -78,9 +82,13 @@
         {
           "android": {
             "enableProguardInReleaseBuilds": true,
-            "usesCleartextTraffic": true
+            "usesCleartextTraffic": true,
+            "enableMinifyInReleaseBuilds": true
           },
-          "ios": {}
+          "ios": {
+            "useFrameworks": "static",
+            "useModularHeaders": true
+          }
         }
       ],
       "expo-font",
@@ -92,6 +100,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "9b773afa-d008-4ad1-83a2-f25b5e27b70f"
       }
     }
   }

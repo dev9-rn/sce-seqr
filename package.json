@@ -19,6 +19,8 @@
     "@config-plugins/react-native-pdf": "^9.0.0",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-community/netinfo": "11.4.1",
+    "@react-native-firebase/app": "^23.7.0",
+    "@react-native-firebase/crashlytics": "^23.7.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@rn-primitives/dialog": "^1.1.0",
