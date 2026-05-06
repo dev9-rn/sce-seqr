@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "475297747776",
+    "project_id": "sceseqr",
+    "storage_bucket": "sceseqr.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475297747776:android:aa3720cebbc6271e7020a5",
+        "android_client_info": {
+          "package_name": "com.sceseqr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGNR6NRUDvx8Tax70OL6tY2zhDyqd_zgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
